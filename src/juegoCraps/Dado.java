@@ -21,6 +21,7 @@ public class Dado {
         Random aleatorio = new Random();
         // es un metodo que devuelve un aleatorio comprendido entre 0 y el valor que nos -1
         cara = aleatorio.nextInt  (6)+1;
+        //This is a comment
         return cara;
 
     }
