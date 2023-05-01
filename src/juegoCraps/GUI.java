@@ -9,8 +9,18 @@ import java.awt.*;
  * @version v.1.0.0 date:21/03/2023
  */
 public class GUI extends JFrame {
-
+    private static final String MENSAJE_INICIO = "Bienvenido a Craps \n"
+            + "Oprime el boton lanzar para inicar el juego"
+            + "\nSi tu tiro de salida es 7 u 11 ganas el juego"
+            + "\nSi tu tiro de salida es 2, 3 u 12 pierdes con Craps"
+            + "\nSi sacas cualquier otro valor estableceras el Punto"
+            + "\nEstado en punto podras seguir lanzando los dados"
+            + "\nEspero ahora ganaras si sacas nuevamente el valor del Punto "
+            + "\nsin que previamente hayas sacado 7";
     private Header headerProject;
+    private JLabel dado1, dado2;
+    private JButton lanzar;
+    private JPanel panelDados, panelResultados;
 
     /**
      * Constructor of GUI class
@@ -19,9 +29,9 @@ public class GUI extends JFrame {
         initGUI();
 
         //Default JFrame configuration
-        this.setTitle("The Title app");
-        this.setSize(200,100);
-        //this.pack();
+        this.setTitle("Juego Craps");
+        //this.setSize(200,100);
+        this.pack();
         this.setResizable(true);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -36,7 +46,7 @@ public class GUI extends JFrame {
         //Set up JFrame Container's Layout
         //Create Listener Object and Control Object
         //Set up JComponents
-        headerProject = new Header("Header ...", Color.BLACK);
+        headerProject = new Header("Mesa De Juego Craps", Color.BLACK);
 
         this.add(headerProject,BorderLayout.NORTH); //Change this line if you change JFrame Container's Layout
     }
