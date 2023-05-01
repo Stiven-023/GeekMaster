@@ -66,6 +66,11 @@ public class GUI extends JFrame {
         panelDados.add(lanzar);
 
         this.add(panelDados, BorderLayout.CENTER);
+
+        resultado = new JTextArea(7,31);
+        resultado.setText(MENSAJE_INICIO);
+        resultado.setBorder(BorderFactory.createTitledBorder("Que debes hacer"));
+        this.add(resultado, BorderLayout.EAST);
     }
 
     /**
