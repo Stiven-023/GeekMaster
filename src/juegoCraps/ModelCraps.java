@@ -1,10 +1,21 @@
 package juegoCraps;
 
+/**
+ * ModelCraps aplica las reglas del juego
+ * estado = 1 Ganador natural
+ * estado = 2 perdio el juego
+ * estado = 3 Establece el punto
+ * estado = 4 Punto ganador
+ * estado = 5 Punto perdedor
+ */
+
 public class ModelCraps {
+    //Objetos que permiten ver la cara visible del dado
     private Dado dado1, dado2;
+    //
 
     private int tiro, punto, estado, flag;
-
+    //Sacar el mensaje correspondiente al estado que tenemos
     private String estadoToString;
     //para manejar el valor de cada dado;
 
@@ -12,6 +23,11 @@ public class ModelCraps {
     private int [] caras;
 
     //Creando el constructor o instancia de este objeto
+
+    /**
+     * Class Constru  crear instancias, crear los objetos de los atributos que defini que iba a usar
+     * o indicar el numero de posiciones que va tener el vector en el que va recoger la informacion de las caras
+     */
     public ModelCraps(){
         //Creando los dados;
         //ya que para poder usar objetos necesito crearlos
@@ -28,6 +44,10 @@ public class ModelCraps {
 
     }
     //utilizar objetos de tipo dado
+
+    /**
+     * Establece el valor del tiro de acuerdo a cada cara del dado
+     */
     public void calcularTiro(){
 
         caras[0]=dado1.getCara();
@@ -44,7 +64,18 @@ public class ModelCraps {
      * Determinar juego es el metodo que me dice, si se gano sacando natural
      * perdi sacando craps, estableci punto o si estando en punto gane o si estando en punto
      * perdi...
+     * @autor Stiven Castro
+     * Version V.10.0 fecha 30/04/2023
      */
+    /**
+     * EStablece el estado de juego de acuerdo a lo que este en la variable estado
+     * estado = 1 Ganador natural
+     * estado = 2 perdio el juego
+     * estado = 3 Establece el punto
+     * estado = 4 Punto ganador
+     * estado = 5 Punto perdedor
+     */
+
     public void determinarJuego(){
         if(flag==0){
             if (tiro == 7 || tiro ==11){
@@ -76,6 +107,11 @@ public class ModelCraps {
      * lo que hace este juego es explicar las reglas de juego
      * para la ronda punto
      */
+    /**
+     * Establece el estado de juego de acuerdo al estado del atributo
+     * estado = 4 Punto ganador
+     * estado = 5 Punto perdedor
+     */
     private void rondaPunto() {
         //rondas de juego para la ronda punto
         if(tiro == punto){
@@ -100,13 +136,29 @@ public class ModelCraps {
         return punto;
     }
 
+    /**
+     * establece el estado del juego del mensaje de acuerdo con el valor del atributo estado
+     * @return mensaje para la clase de vista
+     */
     public String getEstadoToString() {
         /**
          * usa el valor de estado que es un entero para poder personalizar el comentario
          */
         switch (estado){
             case 1: estadoToString= "Sacaste natural, has ganado!!";
-            case 2:
+                    break;
+            case 2: estadoToString= "Sacaste craps, has perdido";
+                    break;
+            case 3: estadoToString= "Estableciste punto en"+ punto +
+                                    " Debes seguir lanzando!!"+
+                                    "\n pero si sacas 7 antes que "+ punto + "Perderas";
+                    break;
+            case 4: estadoToString= "Volviste a sacar"+ punto +", has ganado !!";
+                    break;
+            case 5: estadoToString= "Sacaste 7 antes que"+ punto + "has perdido !!";
+
+
+
         }
 
         return estadoToString;
