@@ -21,6 +21,8 @@ public class GUI extends JFrame {
     private JLabel dado1, dado2;
     private JButton lanzar;
     private JPanel panelDados, panelResultados;
+    private ImageIcon imageDado;
+    private JTextArea resultado;
 
     /**
      * Constructor of GUI class
@@ -49,6 +51,21 @@ public class GUI extends JFrame {
         headerProject = new Header("Mesa De Juego Craps", Color.BLACK);
 
         this.add(headerProject,BorderLayout.NORTH); //Change this line if you change JFrame Container's Layout
+
+        imageDado = new ImageIcon(getClass().getResource("/resources/dado.jpg"));
+        dado1 = new JLabel(imageDado);
+        dado2 = new JLabel(imageDado);
+
+        lanzar = new JButton("Lanzar");
+
+        panelDados = new JPanel();
+        panelDados.setPreferredSize(new Dimension(300, 190)); //Establece las dimensiones del JPanel
+        panelDados.setBorder(BorderFactory.createTitledBorder("Tus Dados"));
+        panelDados.add(dado1);
+        panelDados.add(dado2);
+        panelDados.add(lanzar);
+
+        this.add(panelDados, BorderLayout.CENTER);
     }
 
     /**
