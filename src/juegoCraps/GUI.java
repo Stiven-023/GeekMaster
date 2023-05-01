@@ -2,6 +2,8 @@ package juegoCraps;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * This class is used for ...
@@ -22,7 +24,9 @@ public class GUI extends JFrame {
     private JButton lanzar;
     private JPanel panelDados, panelResultados;
     private ImageIcon imageDado;
-    private JTextArea resultado;
+    private JTextArea resultados;
+    private Escucha escucha;
+    private ModelCraps modelCraps; //objeto modelo
 
     /**
      * Constructor of GUI class
@@ -46,7 +50,9 @@ public class GUI extends JFrame {
      */
     private void initGUI() {
         //Set up JFrame Container's Layout
-        //Create Listener Object and Control Object
+        //Create Listener Object or Control Object
+        escucha = new Escucha();
+        modelCraps = new ModelCraps();
         //Set up JComponents
         headerProject = new Header("Mesa De Juego Craps", Color.BLACK);
 
@@ -57,6 +63,7 @@ public class GUI extends JFrame {
         dado2 = new JLabel(imageDado);
 
         lanzar = new JButton("Lanzar");
+        lanzar.addActionListener(escucha);
 
         panelDados = new JPanel();
         panelDados.setPreferredSize(new Dimension(300, 190)); //Establece las dimensiones del JPanel
@@ -67,13 +74,13 @@ public class GUI extends JFrame {
 
         this.add(panelDados, BorderLayout.CENTER);
 
-        resultado = new JTextArea(7,31);
-        resultado.setText(MENSAJE_INICIO);
-        resultado.setBorder(BorderFactory.createTitledBorder("Que debes hacer"));
-        this.add(resultado, BorderLayout.EAST);
+        resultados = new JTextArea(7,31);
+        resultados.setText(MENSAJE_INICIO);
+        resultados.setBorder(BorderFactory.createTitledBorder("Que debes hacer"));
+        this.add(resultados, BorderLayout.EAST);
     }
 
-    /**
+    /** re
      * Main process of the Java program
      * @param args Object used in order to send input data from command line when
      *             the program is execute by console.
@@ -87,7 +94,19 @@ public class GUI extends JFrame {
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
-    private class Escucha {
+    private class Escucha implements ActionListener {
 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            modelCraps.calcularTiro();
+            int[] caras = modelCraps.getCaras();
+            imageDado = new ImageIcon(getClass().getResource("/resources/dado_"+caras[0]+".png"));
+            dado1.setIcon(imageDado);
+            imageDado = new ImageIcon(getClass().getResource("/resources/dado_"+caras[1]+".png"));
+            dado2.setIcon(imageDado);
+
+            modelCraps.determinarJuego();
+            resultados.setText(modelCraps.getEstadoToString());
+        }
     }
 }
