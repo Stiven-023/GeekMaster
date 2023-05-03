@@ -123,7 +123,24 @@ public class GUI extends JFrame {
             dado2.setIcon(imageDado);
 
             modelCraps.determinarJuego();
-            mensajeDeSalida.setText(modelCraps.getEstadoToString());
+
+            panelResultados.removeAll();
+            panelResultados.setBorder(BorderFactory.createTitledBorder("Resltados: "));
+            panelResultados.add(resultadosDados);
+            panelResultados.add(separador);
+            panelResultados.add(mensajeDeSalida);
+
+            //Todo lo que este en la primera posicion del arreglo se va poner en el area de texto
+            resultadosDados.setText(modelCraps.getEstadoToString()[0]);
+            //Se le establece una menor cantidad de filas
+            mensajeDeSalida.setRows(4);
+            mensajeDeSalida.setText(modelCraps.getEstadoToString()[1]);
+            //revisa toda la ventana
+            revalidate();
+            //para que pinte todos los cambuos que se ha hecho en la ventana
+            repaint();
+
+
         }
     }
 }
