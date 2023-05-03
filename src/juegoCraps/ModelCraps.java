@@ -151,7 +151,7 @@ public class ModelCraps {
                     break;
             case 3: estadoToString= "Estableciste punto en"+ punto +
                                     " Debes seguir lanzando!!"+
-                                    "\n pero si sacas 7 antes que "+ punto + "Perderas";
+                                    "\n pero si sacas 7 antes que "+""+ punto + ""+"Perderas";
                     break;
             case 4: estadoToString= "Volviste a sacar"+ punto +", has ganado !!";
                     break;
