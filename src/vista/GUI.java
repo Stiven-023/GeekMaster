@@ -1,4 +1,4 @@
-package juegoCraps;
+package vista;
 
 import javax.swing.*;
 import java.awt.*;

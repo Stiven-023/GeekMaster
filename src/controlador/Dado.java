@@ -1,4 +1,4 @@
-package juegoCraps;
+package controlador;
 
 import java.util.Random;
 

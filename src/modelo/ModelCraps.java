@@ -1,4 +1,6 @@
-package juegoCraps;
+package modelo;
+
+import controlador.Dado;
 
 /**
  * ModelCraps aplica las reglas del juego
