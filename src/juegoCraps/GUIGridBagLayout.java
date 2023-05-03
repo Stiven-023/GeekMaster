@@ -29,6 +29,8 @@ public class GUIGridBagLayout extends JFrame {
         initGUI();
 
         this.setTitle("Juego Craps");
+        this.setUndecorated(true);
+        this.setBackground(new Color(255,255,255,0));
         this.pack();
         this.setResizable(true);
         this.setVisible(true);
@@ -70,6 +72,68 @@ public class GUIGridBagLayout extends JFrame {
         constrains.anchor= GridBagConstraints.LINE_END;
         this.add(salir, constrains);
 
+        imageDado = new ImageIcon(getClass().getResource("/resources/dado.jpg"));
+        dado1 = new JLabel(imageDado);
+        dado2 = new JLabel(imageDado);
+
+        panelDados = new JPanel();
+        panelDados.setPreferredSize(new Dimension(300, 190)); //Establece las dimensiones del JPanel
+        panelDados.setBorder(BorderFactory.createTitledBorder("Tus Dados"));
+        panelDados.add(dado1);
+        panelDados.add(dado2);
+        // panelDados.add(lanzar);
+
+        constrains.gridx = 0;
+        constrains.gridy = 2;
+        constrains.gridwidth = 1;
+        constrains.fill = GridBagConstraints.BOTH;
+        constrains.anchor = GridBagConstraints.CENTER;
+
+        add(panelDados, constrains);
+
+        resultadosDados = new JTextArea(4,31);
+        resultadosDados.setBorder(BorderFactory.createTitledBorder("Resultados"));
+        resultadosDados.setText("Debes lanzar los dados");
+        resultadosDados.setBackground(null);
+        resultadosDados.setEditable(false);
+        constrains.gridx = 1;
+        constrains.gridy = 2;
+        constrains.gridwidth = 1;
+        constrains.fill = GridBagConstraints.BOTH;
+        constrains.anchor = GridBagConstraints.CENTER;
+        add(resultadosDados, constrains);
+
+        lanzar = new JButton("Lanzar");
+        lanzar.addActionListener(escucha);
+        constrains.gridx = 0;
+        constrains.gridy = 3;
+        constrains.gridwidth = 2;
+        //el none es para que me respete el tamaño que tiene el componente
+        constrains.fill = GridBagConstraints.NONE;
+        constrains.anchor = GridBagConstraints.CENTER;
+        add(lanzar, constrains);
+
+        mensajeDeSalida = new JTextArea(4,31);
+        mensajeDeSalida.setText("Usa el boton (?) de ayuda para ver las reglas del juego");
+        mensajeDeSalida.setBorder(BorderFactory.createTitledBorder("Mensajes "));
+        mensajeDeSalida.setBackground(null);
+        mensajeDeSalida.setEditable(false);
+        //mensajeDeSalida.setBackground(new Color(255,255,255,0));
+        constrains.gridx = 0;
+        constrains.gridy = 4;
+        constrains.gridwidth = 2;
+        constrains.fill = GridBagConstraints.NONE;
+        constrains.anchor = GridBagConstraints.CENTER;
+        //lo adiciono a la ventana
+        add(mensajeDeSalida, constrains);
+
+
+
+
+
+
+
+
 
     }
     public static void main(String[] args){
@@ -81,18 +145,25 @@ public class GUIGridBagLayout extends JFrame {
     private class Escucha implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            modelCraps.calcularTiro();
-            int[] caras = modelCraps.getCaras();
-            imageDado = new ImageIcon(getClass().getResource("/resources/dado_"+caras[0]+".png"));
-            dado1.setIcon(imageDado);
-            imageDado = new ImageIcon(getClass().getResource("/resources/dado_"+caras[1]+".png"));
-            dado2.setIcon(imageDado);
-            modelCraps.determinarJuego();
-            //Todo lo que este en la primera posicion del arreglo se va poner en el area de texto
-            resultadosDados.setText(modelCraps.getEstadoToString()[0]);
-            //Se le establece una menor cantidad de filas
-            mensajeDeSalida.setRows(4);
-            mensajeDeSalida.setText(modelCraps.getEstadoToString()[1]);
+            if (e.getSource()==lanzar) {
+                modelCraps.calcularTiro();
+                int[] caras = modelCraps.getCaras();
+                imageDado = new ImageIcon(getClass().getResource("/resources/dado_" + caras[0] + ".png"));
+                dado1.setIcon(imageDado);
+                imageDado = new ImageIcon(getClass().getResource("/resources/dado_" + caras[1] + ".png"));
+                dado2.setIcon(imageDado);
+                modelCraps.determinarJuego();
+                //Todo lo que este en la primera posicion del arreglo se va poner en el area de texto
+                resultadosDados.setText(modelCraps.getEstadoToString()[0]);
+                //Se le establece una menor cantidad de filas
+                mensajeDeSalida.setText(modelCraps.getEstadoToString()[1]);
+            }else{
+                if (e.getSource()==ayuda){
+                    JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
+                }else{
+                    System.exit(0);
+                }
+            }
 
 
 
