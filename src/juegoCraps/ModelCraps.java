@@ -16,7 +16,7 @@ public class ModelCraps {
 
     private int tiro, punto, estado, flag;
     //Sacar el mensaje correspondiente al estado que tenemos
-    private String estadoToString;
+    private String[] estadoToString;
     //para manejar el valor de cada dado;
 
     //Arreglo que contiene las dos caras del dado
@@ -35,6 +35,7 @@ public class ModelCraps {
         dado2 = new Dado();
         //le di dos posiciones al arreglo
         caras= new int [2];
+        estadoToString = new String[2];
         /**
          *  Cuando se crea el objeto me aseguro que la bandera arranque en cero
          *  me indica que voy a validar el tiro de salida
@@ -118,14 +119,19 @@ public class ModelCraps {
             estado = 4;
             flag =1;
 
-        }
-        if(tiro == 7){
-            //perdio estando en el punto
-            estado=5;
-            //iniciaria una nueva ronda de juego
-            flag=0;
+        }else {
+            if(tiro == 7){
+                //perdio estando en el punto
+                estado=5;
+                //iniciaria una nueva ronda de juego
+                flag=0;
+            }else {
+                estado = 6;
+
+            }
 
         }
+
     }
 
     public int getTiro() {
@@ -140,22 +146,35 @@ public class ModelCraps {
      * establece el estado del juego del mensaje de acuerdo con el valor del atributo estado
      * @return mensaje para la clase de vista
      */
-    public String getEstadoToString() {
+    //Lo defino como un arreglo
+    public String[] getEstadoToString() {
         /**
          * usa el valor de estado que es un entero para poder personalizar el comentario
          */
         switch (estado){
-            case 1: estadoToString= "Sacaste natural, has ganado!!";
+            case 1: estadoToString[0] = "Tiro de salida= "+tiro;
+                    estadoToString[1] = "Sacaste natural, has ganado!!";
                     break;
-            case 2: estadoToString= "Sacaste craps, has perdido";
+            case 2: estadoToString[0] = "Tiro de salida"+tiro;
+                    estadoToString[1] =  "Sacaste craps, has perdido";
                     break;
-            case 3: estadoToString= "Estableciste punto en"+ punto +
+            case 3: estadoToString[0]= "Tiro de salida = "+ tiro +"\nPunto = " + punto;
+                    estadoToString[1] = "Estableciste punto en"+ punto +
                                     " Debes seguir lanzando!!"+
-                                    "\n pero si sacas 7 antes que "+ punto + "Perderas";
+                                    "\n pero si sacas 7 antes que "+""+ punto + ""+"Perderas";
                     break;
-            case 4: estadoToString= "Volviste a sacar"+ punto +", has ganado !!";
+            case 4: estadoToString[0]= "Tiro de salida = "+ punto +"\nPunto = " + punto
+                                        +"\n Valor del nuevo tiro = "+ tiro;
+                    estadoToString[1] = "Volviste a sacar"+ punto +", has ganado !!";
                     break;
-            case 5: estadoToString= "Sacaste 7 antes que"+ punto + "has perdido !!";
+            case 5: estadoToString[0]= "Tiro de salida = "+ punto +"\nPunto = " + punto
+                    +"\n Valor del nuevo tiro = "+ tiro;
+                    estadoToString[1] = "Sacaste 7 antes que"+ punto + "has perdido !!";
+
+            case 6: estadoToString[0]= "Tiro de salida = "+ punto +"\nPunto = " + punto
+                    +"\n Valor del nuevo tiro = "+ tiro;
+                estadoToString[1] = "\" Estas en punto y debes seguir lanzando!!\"+\n" +
+                        "            \"\\n pero si sacas 7 antes que \"+\"\"+ punto + \"\"+\"Perderas\";";
 
 
 

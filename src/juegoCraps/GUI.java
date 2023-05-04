@@ -24,7 +24,9 @@ public class GUI extends JFrame {
     private JButton lanzar;
     private JPanel panelDados, panelResultados;
     private ImageIcon imageDado;
-    private JTextArea resultados;
+    private JTextArea resultadosDados, mensajeDeSalida;
+    // componente grafico que me crea una linea separadora
+    private JSeparator separador;
     private Escucha escucha;
     private ModelCraps modelCraps; //objeto modelo
 
@@ -74,10 +76,25 @@ public class GUI extends JFrame {
 
         this.add(panelDados, BorderLayout.CENTER);
 
-        resultados = new JTextArea(7,31);
-        resultados.setText(MENSAJE_INICIO);
-        resultados.setBorder(BorderFactory.createTitledBorder("Que debes hacer"));
-        this.add(resultados, BorderLayout.EAST);
+        mensajeDeSalida = new JTextArea(7,31);
+        mensajeDeSalida.setText(MENSAJE_INICIO);
+        //mensajeDeSalida.setBorder(BorderFactory.createTitledBorder("Que debes hacer"));
+        JScrollPane scroll = new JScrollPane(mensajeDeSalida);
+        //this.add(mensajeDeSalida, BorderLayout.EAST);
+
+        panelResultados =  new JPanel();
+        panelResultados.setBorder(BorderFactory.createTitledBorder("Que debes hacer"));
+        panelResultados.add(scroll);
+        panelResultados.setPreferredSize(new Dimension(370, 180));
+
+        this.add(panelResultados, BorderLayout.EAST);
+
+        resultadosDados = new JTextArea(4,31);
+        separador = new JSeparator();
+        separador. setPreferredSize(new Dimension(320, 7));
+        separador.setBackground(Color.BLUE);
+
+
     }
 
     /** re
@@ -106,7 +123,24 @@ public class GUI extends JFrame {
             dado2.setIcon(imageDado);
 
             modelCraps.determinarJuego();
-            resultados.setText(modelCraps.getEstadoToString());
+
+            panelResultados.removeAll();
+            panelResultados.setBorder(BorderFactory.createTitledBorder("Resltados: "));
+            panelResultados.add(resultadosDados);
+            panelResultados.add(separador);
+            panelResultados.add(mensajeDeSalida);
+
+            //Todo lo que este en la primera posicion del arreglo se va poner en el area de texto
+            resultadosDados.setText(modelCraps.getEstadoToString()[0]);
+            //Se le establece una menor cantidad de filas
+            mensajeDeSalida.setRows(4);
+            mensajeDeSalida.setText(modelCraps.getEstadoToString()[1]);
+            //revisa toda la ventana
+            revalidate();
+            //para que pinte todos los cambuos que se ha hecho en la ventana
+            repaint();
+
+
         }
     }
 }
