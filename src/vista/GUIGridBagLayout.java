@@ -3,10 +3,13 @@ package vista;
 import Modelo.ModelCraps;
 import Modelo.Puntaje;
 
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
+import java.util.ArrayList;
 
 public class GUIGridBagLayout extends JFrame {
     private static final String MENSAJE_INICIO = "Bienvenido a Craps \n"
@@ -18,12 +21,12 @@ public class GUIGridBagLayout extends JFrame {
             + "\nEspero ahora ganaras si sacas nuevamente el valor del Punto "
             + "\nsin que previamente hayas sacado 7";
     private Header headerProject;
-    private JLabel dado1, dado2, dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10;
+    private JLabel image, dado1, dado2, dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10;
     private JButton lanzar, ayuda, salir;
     private JPanel gridPuntaje,todo, gridPanel, panelBoton, panelDados, panelTarjetaPunto, dadosUtilizados, dadosInactivos;
     private ImageIcon imageDado;
     private Container containerPp;
-    private Puntaje marcador;
+    private ArrayList<Puntaje> arrPuntaje;
     private JTextArea resultadosDados, mensajeDeSalida;
     // componente grafico que me crea una linea separadora
     //private JSeparator separador;
@@ -69,13 +72,27 @@ public class GUIGridBagLayout extends JFrame {
         panelTarjetaPunto.setBorder(BorderFactory.createTitledBorder("Tarjeta Puntuacion"));
 
 
-        marcador = new Puntaje("1");
-        marcador = new Puntaje("3");
-        gridPuntaje = new JPanel(new GridLayout(3,3));
-        gridPuntaje.setFocusable(true);
-        gridPuntaje.requestFocusInWindow();
 
-        gridPuntaje.add(marcador);
+        // marcador2 = new Puntaje("2");
+
+        gridPuntaje = new JPanel(new GridLayout(3,4));
+
+        arrPuntaje = new ArrayList<Puntaje>();
+        String[] num = {"Puntaje", "1", "3", "6", "10","15", "21", "28", "36", "45","55","666"  };
+
+
+        for (int i = 0; i < 12; i++) {
+            final Puntaje marcador = new Puntaje(num[i]);
+            arrPuntaje.add(marcador);
+        }
+
+        for (Puntaje marcador: arrPuntaje) {
+            gridPuntaje.add(marcador);
+        }
+        // gridPuntaje.setFocusable(true);
+        // gridPuntaje.requestFocusInWindow();
+        gridPuntaje.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+        //gridPuntaje.add(marcador);
         panelTarjetaPunto.add(gridPuntaje);
 
 
@@ -117,6 +134,7 @@ public class GUIGridBagLayout extends JFrame {
 
         imageDado = new ImageIcon(getClass().getResource("/resources/dado.jpg"));
         dado1 = new JLabel(imageDado);
+        //imageDado =  new ImageIcon(getClass().getResource("resources/dado_1.png"));
         dado2 = new JLabel(imageDado);
         dado3 = new JLabel(imageDado);
         dado4 = new JLabel(imageDado);
@@ -149,8 +167,9 @@ public class GUIGridBagLayout extends JFrame {
 
         dadosInactivos.add(dado8);
         dadosInactivos.add(dado9);
-        dadosInactivos.add(dado10);
-
+        dadosInactivos.setOpaque(false);
+        //URL url=this.getClass().getResource("src/resources/dado_1.png");
+        //image icon = new image(url);
 
 
         /**
@@ -158,7 +177,7 @@ public class GUIGridBagLayout extends JFrame {
         resultadosDados.setBorder(BorderFactory.createTitledBorder("Resultados"));
         resultadosDados.setText("Debes lanzar los dados");
         resultadosDados.setBackground(null);
-        resultadosDados.setEditable(false);
+        resultadosDados.setEditable(fa
          */
 
         //panelDados.add(resultadosDados);
@@ -214,7 +233,6 @@ public class GUIGridBagLayout extends JFrame {
         constrains.anchor = GridBagConstraints.LAST_LINE_START;
         //lo adiciono a la ventana
         add(mensajeDeSalida, constrains);
-
          */
         this.add(todo);
 

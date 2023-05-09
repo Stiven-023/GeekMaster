@@ -10,7 +10,19 @@ public class Puntaje extends JTextArea {
 
     public Puntaje(String marcador) {
         this.marcador = marcador;
-        this.setFont( new Font("SansSerif",Font.BOLD, 22) );
+        this.setEditable(false);
+        this.setFont( new Font("SansSerif",Font.BOLD, 25) );
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.setText(marcador);
+
     }
 
+    public String getMarcador() {
+        return marcador;
+    }
+
+    public void setMarcador(String marcador) {
+        this.marcador = marcador;
+        this.setText(marcador);
+    }
 }
