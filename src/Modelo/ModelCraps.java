@@ -1,4 +1,4 @@
-package juegoCraps;
+package Modelo;
 
 /**
  * ModelCraps aplica las reglas del juego
