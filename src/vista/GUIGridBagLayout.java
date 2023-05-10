@@ -21,7 +21,8 @@ public class GUIGridBagLayout extends JFrame {
             + "\nEspero ahora ganaras si sacas nuevamente el valor del Punto "
             + "\nsin que previamente hayas sacado 7";
     private Header headerProject;
-    private JLabel image, dado1, dado2, dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10;
+    private JLabel image, dado11, dado2, dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10;
+    //private JLabel[] dados;
     private JButton lanzar, ayuda, salir;
     private JPanel gridPuntaje,todo, gridPanel, panelBoton, panelDados, panelTarjetaPunto, dadosUtilizados, dadosInactivos;
     private ImageIcon imageDado;
@@ -52,6 +53,8 @@ public class GUIGridBagLayout extends JFrame {
     }
 
     private void initGUI() {
+
+        //dados = new JLabel[10];
         gridPanel = new JPanel(new GridLayout(2,2));
 
         todo = new JPanel(new BorderLayout());
@@ -132,10 +135,11 @@ public class GUIGridBagLayout extends JFrame {
         //constrains.anchor= GridBagConstraints.LINE_END;
         //this.add(salir, constrains);
 
-        imageDado = new ImageIcon(getClass().getResource("/resources/dado.jpg"));
-        dado1 = new JLabel(imageDado);
+        imageDado = new ImageIcon(getClass().getResource("src/resources/Screenshot from 2023-05-01 10-04-29.png"));
+
+
         //imageDado =  new ImageIcon(getClass().getResource("resources/dado_1.png"));
-        dado2 = new JLabel(imageDado);
+        //dado2 = new JLabel(imageDado);
         dado3 = new JLabel(imageDado);
         dado4 = new JLabel(imageDado);
         dado5 = new JLabel(imageDado);
@@ -145,10 +149,11 @@ public class GUIGridBagLayout extends JFrame {
 
 
 
+
         panelDados = new JPanel();
         panelDados.setPreferredSize(new Dimension(300, 190)); //Establece las dimensiones del JPanel
         panelDados.setBorder(BorderFactory.createTitledBorder("Tus Dados"));
-        panelDados.add(dado1);
+        panelDados.add(dado11);
         panelDados.add(dado2);
         panelDados.add(dado3);
         panelDados.add(dado4);
@@ -167,6 +172,7 @@ public class GUIGridBagLayout extends JFrame {
 
         dadosInactivos.add(dado8);
         dadosInactivos.add(dado9);
+        dadosInactivos.add(dado10);
         dadosInactivos.setOpaque(false);
         //URL url=this.getClass().getResource("src/resources/dado_1.png");
         //image icon = new image(url);
@@ -190,6 +196,19 @@ public class GUIGridBagLayout extends JFrame {
         //constrains.anchor = GridBagConstraints.CENTER;
 
         //add(panelDados, constrains);
+/*
+        for(int i=0;i<dados.length;i++){
+            imageDado = new ImageIcon(getClass().getResource("/resources/dado.jpg"));
+            if(i<7){
+                dados[i]= new JLabel();
+                dados[i].setIcon(imageDado);
+                panelDados.add(dados[i]);
+            } else if (i>6) {
+                dados[i].setIcon(imageDado);
+                dadosInactivos.add(dados[i]);
+            }
+        }
+*/
 
         gridPanel.add(panelDados);
         gridPanel.add(dadosUtilizados);
@@ -253,7 +272,7 @@ public class GUIGridBagLayout extends JFrame {
                 modelCraps.calcularTiro();
                 int[] caras = modelCraps.getCaras();
                 imageDado = new ImageIcon(getClass().getResource("/resources/dado_" + caras[0] + ".png"));
-                dado1.setIcon(imageDado);
+                dado11.setIcon(imageDado);
                 imageDado = new ImageIcon(getClass().getResource("/resources/dado_" + caras[1] + ".png"));
                 dado2.setIcon(imageDado);
                 modelCraps.determinarJuego();
