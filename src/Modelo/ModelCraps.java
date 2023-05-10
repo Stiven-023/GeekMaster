@@ -1,6 +1,8 @@
-package modelo;
+package Modelo;
+
 
 import Modelo.Dado;
+
 
 public class ModelCraps {
     //Objetos que permiten ver la cara visible del dado

@@ -1,4 +1,6 @@
-package controlador;
+
+package Modelo;
+
 
 import java.util.Random;
 
