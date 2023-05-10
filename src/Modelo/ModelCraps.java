@@ -1,13 +1,5 @@
 package Modelo;
 
-/**
- * ModelCraps aplica las reglas del juego
- * estado = 1 Ganador natural
- * estado = 2 perdio el juego
- * estado = 3 Establece el punto
- * estado = 4 Punto ganador
- * estado = 5 Punto perdedor
- */
 
 public class ModelCraps {
     //Objetos que permiten ver la cara visible del dado
@@ -61,21 +53,6 @@ public class ModelCraps {
 
     }
 
-    /**
-     * Determinar juego es el metodo que me dice, si se gano sacando natural
-     * perdi sacando craps, estableci punto o si estando en punto gane o si estando en punto
-     * perdi...
-     * @autor Stiven Castro
-     * Version V.10.0 fecha 30/04/2023
-     */
-    /**
-     * EStablece el estado de juego de acuerdo a lo que este en la variable estado
-     * estado = 1 Ganador natural
-     * estado = 2 perdio el juego
-     * estado = 3 Establece el punto
-     * estado = 4 Punto ganador
-     * estado = 5 Punto perdedor
-     */
 
     public void determinarJuego(){
         if(flag==0){
@@ -104,15 +81,7 @@ public class ModelCraps {
         }
         }
 
-    /**
-     * lo que hace este juego es explicar las reglas de juego
-     * para la ronda punto
-     */
-    /**
-     * Establece el estado de juego de acuerdo al estado del atributo
-     * estado = 4 Punto ganador
-     * estado = 5 Punto perdedor
-     */
+
     private void rondaPunto() {
         //rondas de juego para la ronda punto
         if(tiro == punto){

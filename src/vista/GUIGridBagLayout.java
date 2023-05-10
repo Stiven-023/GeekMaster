@@ -10,18 +10,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GUIGridBagLayout extends JFrame {
     private static final String MENSAJE_INICIO = "Bienvenido a Craps \n"
-            + "Oprime el boton lanzar para inicar el juego"
-            + "\nSi tu tiro de salida es 7 u 11 ganas el juego"
-            + "\nSi tu tiro de salida es 2, 3 u 12 pierdes con Craps"
-            + "\nSi sacas cualquier otro valor estableceras el Punto"
-            + "\nEstado en punto podras seguir lanzando los dados"
-            + "\nEspero ahora ganaras si sacas nuevamente el valor del Punto "
-            + "\nsin que previamente hayas sacado 7";
+            + "De los 10 dados que trae el juego se toman 3 y se colocan en el sector de \"Dados\n" +
+            "Inactivos\". Los otros 7 dados se tiran y pasan a ser los \"Dados Activos\".\n"
+            + "\n" +
+            "Se van eligiendo los dados a utilizar según las habilidades de sus caras y se pasan al sector\n" +
+            "de \"Dados Utilizados"
+            + "\nSi como último dado activo queda un Dragón, se perderán todos los puntos acumulados."+
+            "\n"
+            + "\nEste juego lo jugará un único jugador y ganará si logra sumar 30 puntos o más en 5 rondas\n" +
+            "consecutivas de juego";
+
+
     private Header headerProject;
-    private JLabel image, dado11, dado2, dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10;
+    private JLabel image, dado1, dado2, dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10;
     //private JLabel[] dados;
     private JButton lanzar, ayuda, salir;
     private JPanel gridPuntaje,todo, gridPanel, panelBoton, panelDados, panelTarjetaPunto, dadosUtilizados, dadosInactivos;
@@ -33,14 +38,13 @@ public class GUIGridBagLayout extends JFrame {
     //private JSeparator separador;
     private Escucha escucha;
     private ModelCraps modelCraps; //objeto modelo
+    private Dado dadoView;
 
     public GUIGridBagLayout(){
 
         initGUI();
 
         this.setTitle("Juego Craps");
-        //this.setUndecorated(true);
-        //this.setBackground(new Color(255,255,255,0));
         this.pack();
         this.setSize(900,500);
         this.setResizable(true);
@@ -48,13 +52,16 @@ public class GUIGridBagLayout extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 
     }
 
     private void initGUI() {
 
-        //dados = new JLabel[10];
+        /**
+         * Con el GRIDPANEL hago las distribuciones que necesito dentro de un panel
+         */
         gridPanel = new JPanel(new GridLayout(2,2));
 
         todo = new JPanel(new BorderLayout());
@@ -62,84 +69,58 @@ public class GUIGridBagLayout extends JFrame {
         // Panel botones
         panelBoton = new JPanel();
 
-        lanzar = new JButton("Lanzar");
-        lanzar.addActionListener(escucha);
-        panelBoton.add(lanzar);
 
+
+
+        /**
+         * Panel donde van a ir los dados utilizados
+         */
         dadosUtilizados = new JPanel();
         dadosUtilizados.setBorder(BorderFactory.createTitledBorder("Dados Utilizados"));
 
-
+        /**
+         * Panel donde va la puntuacion
+         */
         panelTarjetaPunto = new JPanel();
-
         panelTarjetaPunto.setBorder(BorderFactory.createTitledBorder("Tarjeta Puntuacion"));
-
-
-
-        // marcador2 = new Puntaje("2");
-
         gridPuntaje = new JPanel(new GridLayout(3,4));
 
+        /**
+         * Arreglo donde almaceno los puntajes y despues los recorro con un for y se van agregando al
+         * marcador
+         */
         arrPuntaje = new ArrayList<Puntaje>();
-        String[] num = {"Puntaje", "1", "3", "6", "10","15", "21", "28", "36", "45","55","666"  };
+        String[] num = {"Puntaje", "1", "3", "6", "10","15", "21", "28", "36", "45","55", };
 
-
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 11; i++) {
             final Puntaje marcador = new Puntaje(num[i]);
             arrPuntaje.add(marcador);
         }
-
+        /**
+         * Agrega todos los elementos de marcador a gridPuntaje
+         */
         for (Puntaje marcador: arrPuntaje) {
             gridPuntaje.add(marcador);
         }
-        // gridPuntaje.setFocusable(true);
-        // gridPuntaje.requestFocusInWindow();
+        /**
+         * Para el espacio de cada jlabel
+         */
         gridPuntaje.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-        //gridPuntaje.add(marcador);
         panelTarjetaPunto.add(gridPuntaje);
 
-
-
-        //Set up JFrame Container's Layout
-        // this.getContentPane().setLayout(new GridBagLayout());
-        // GridBagConstraints constrains = new GridBagConstraints();
-        //Create Listener Object or Control Object
+        /**
+         * Instancia de la escucha
+         */
         escucha = new Escucha();
         modelCraps = new ModelCraps();
-        //Set up JComponents
         headerProject = new Header("Mesa De Juego Craps", Color.BLACK);
-        //constrains.gridx=0;
-        //constrains.gridy=0;
-        //constrains.gridwidth =2;
-        //ancho que va tomar el componente
-        //constrains.fill= GridBagConstraints.HORIZONTAL;
-        //this.add(headerProject, constrains);
-        //this.add(head |erProject,BorderLayout.NORTH);
 
         /**
-        ayuda = new JButton(" ? ");
-        ayuda.addActionListener(escucha);
-        constrains.gridx =0;
-        constrains.gridy =1;
-        constrains.gridwidth=1;
-        constrains.fill= GridBagConstraints.NONE;
-        constrains.anchor= GridBagConstraints.LINE_START;
+         * Instancia de los dados
          */
-        // this.add(ayuda, constrains);
+        dado1 = new JLabel(imageDado);
 
-        salir = new JButton("Salir");
-        salir.addActionListener(escucha);
-        //constrains.gridx = 1;
-        //constrains.gridy = 1;
-        //constrains.fill=GridBagConstraints.NONE;
-        //constrains.anchor= GridBagConstraints.LINE_END;
-        //this.add(salir, constrains);
-
-        imageDado = new ImageIcon(getClass().getResource("src/resources/Screenshot from 2023-05-01 10-04-29.png"));
-
-
-        //imageDado =  new ImageIcon(getClass().getResource("resources/dado_1.png"));
-        //dado2 = new JLabel(imageDado);
+        dado2 = new JLabel(imageDado);
         dado3 = new JLabel(imageDado);
         dado4 = new JLabel(imageDado);
         dado5 = new JLabel(imageDado);
@@ -149,11 +130,15 @@ public class GUIGridBagLayout extends JFrame {
 
 
 
-
+        //Instancia del panel donde van a ir los dados activos
         panelDados = new JPanel();
+        /**
+         * Agrego dados al panel
+         */
+
         panelDados.setPreferredSize(new Dimension(300, 190)); //Establece las dimensiones del JPanel
         panelDados.setBorder(BorderFactory.createTitledBorder("Tus Dados"));
-        panelDados.add(dado11);
+        panelDados.add(dado1);
         panelDados.add(dado2);
         panelDados.add(dado3);
         panelDados.add(dado4);
@@ -161,54 +146,37 @@ public class GUIGridBagLayout extends JFrame {
         panelDados.add(dado6);
         panelDados.add(dado7);
 
-        dadosInactivos = new JPanel();
-        dadosInactivos.setBorder(BorderFactory.createTitledBorder("Dados Inactivos"));
-        dado8 = new JLabel(imageDado);
-        dado9 = new JLabel(imageDado);
-        dado10 = new JLabel(imageDado);
-
-
-
-
-        dadosInactivos.add(dado8);
-        dadosInactivos.add(dado9);
-        dadosInactivos.add(dado10);
-        dadosInactivos.setOpaque(false);
-        //URL url=this.getClass().getResource("src/resources/dado_1.png");
-        //image icon = new image(url);
-
 
         /**
-        resultadosDados = new JTextArea(4,31);
-        resultadosDados.setBorder(BorderFactory.createTitledBorder("Resultados"));
-        resultadosDados.setText("Debes lanzar los dados");
-        resultadosDados.setBackground(null);
-        resultadosDados.setEditable(fa
+         * Genera un numero aleatorio del 1 al 7
          */
-
-        //panelDados.add(resultadosDados);
-        // panelDados.add(lanzar);
-
-        //constrains.gridx = 0;
-        //constrains.gridy = 2;
-        //constrains.gridwidth = 1;
-        //constrains.fill = GridBagConstraints.BOTH;
-        //constrains.anchor = GridBagConstraints.CENTER;
-
-        //add(panelDados, constrains);
-/*
-        for(int i=0;i<dados.length;i++){
-            imageDado = new ImageIcon(getClass().getResource("/resources/dado.jpg"));
-            if(i<7){
-                dados[i]= new JLabel();
-                dados[i].setIcon(imageDado);
-                panelDados.add(dados[i]);
-            } else if (i>6) {
-                dados[i].setIcon(imageDado);
-                dadosInactivos.add(dados[i]);
-            }
+        Random rand = new Random();
+        for (int i = 0; i < 7; i++) {
+            dadoView = new Dado(rand.nextInt(6)+1);
+            panelDados.add(dadoView);
         }
-*/
+
+
+        dadosInactivos = new JPanel();
+        dadosInactivos.setBorder(BorderFactory.createTitledBorder("Dados Inactivos"));
+        imageDado = new ImageIcon("src/resources/mepple.png", MENSAJE_INICIO);
+
+        /**
+         * Genera un numero alaetorio del 1 al 3
+         */
+        for (int i = 0; i < 3; i++)
+
+        {
+            dadoView = new Dado(rand.nextInt(6) + 1);
+            dadosInactivos.add(dadoView);
+        }
+
+
+        dadosInactivos.setOpaque(false);
+
+        /**
+         * Agrego los paneles a la distribucion de gridPanel
+         */
 
         gridPanel.add(panelDados);
         gridPanel.add(dadosUtilizados);
@@ -216,43 +184,27 @@ public class GUIGridBagLayout extends JFrame {
         gridPanel.add(dadosInactivos);
 
         todo.add(panelBoton, BorderLayout.SOUTH);
-        todo.add(gridPanel, BorderLayout.CENTER);
-
-
-
+        /**
+         * Boton que nos indicia las reglas del juego
+         */
+        ayuda = new JButton(" Ayuda ");
+        panelBoton.add(ayuda);
 
         /**
-
-        constrains.gridx = 1;
-        constrains.gridy = 2;
-        constrains.gridwidth = 1;
-        constrains.fill = GridBagConstraints.BOTH;
-        constrains.anchor = GridBagConstraints.CENTER;
-        add(resultadosDados, constrains);
-
-
-        constrains.gridx = 0;
-        constrains.gridy = 3;
-        constrains.gridwidth = 2;
-        //el none es para que me respete el tamaño que tiene el componente
-        constrains.fill = GridBagConstraints.NONE;
-        constrains.anchor = GridBagConstraints.CENTER;
-        add(lanzar, constrains);
-
-        mensajeDeSalida = new JTextArea(4,31);
-        mensajeDeSalida.setText("Usa el boton (?) de ayuda para ver las reglas del juego");
-        mensajeDeSalida.setBorder(BorderFactory.createTitledBorder("Mensajes "));
-        mensajeDeSalida.setBackground(null);
-        mensajeDeSalida.setEditable(false);
-        //mensajeDeSalida.setBackground(new Color(255,255,255,0));
-        constrains.gridx = 0;
-        constrains.gridy = 4;
-        constrains.gridwidth = 2;
-        constrains.fill = GridBagConstraints.NONE;
-        constrains.anchor = GridBagConstraints.LAST_LINE_START;
-        //lo adiciono a la ventana
-        add(mensajeDeSalida, constrains);
+         * Boton para salir del juego
          */
+        salir = new JButton("Salir");
+        salir.addActionListener(escucha);
+        panelBoton.add(salir);
+
+        /**
+         *
+         */
+        ayuda.addActionListener(escucha);
+
+
+        todo.add(gridPanel, BorderLayout.CENTER);
+
         this.add(todo);
 
 
@@ -268,25 +220,14 @@ public class GUIGridBagLayout extends JFrame {
     private class Escucha implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource()==lanzar) {
-                modelCraps.calcularTiro();
-                int[] caras = modelCraps.getCaras();
-                imageDado = new ImageIcon(getClass().getResource("/resources/dado_" + caras[0] + ".png"));
-                dado11.setIcon(imageDado);
-                imageDado = new ImageIcon(getClass().getResource("/resources/dado_" + caras[1] + ".png"));
-                dado2.setIcon(imageDado);
-                modelCraps.determinarJuego();
-                //Todo lo que este en la primera posicion del arreglo se va poner en el area de texto
-                resultadosDados.setText(modelCraps.getEstadoToString()[0]);
-                //Se le establece una menor cantidad de filas
-                mensajeDeSalida.setText(modelCraps.getEstadoToString()[1]);
-            }else{
+
+
                 if (e.getSource()==ayuda){
                     JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
                 }else{
                     System.exit(0);
                 }
-            }
+
 
 
 
